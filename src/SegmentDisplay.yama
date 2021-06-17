@@ -1,0 +1,119 @@
+namespace "Program"
+{
+    using "System";
+    using "System.IO";
+
+    public class SegmentDisplay
+    {
+
+        // -----------------------------------------------
+
+        #region vars
+
+        // -----------------------------------------------
+
+        public GpioPin SegmentBottomRight;
+        public GpioPin SegmentBottom;
+        public GpioPin SegmentBottomLeft;
+        public GpioPin SegmentMiddle;
+        public GpioPin SegmentTopRight;
+        public GpioPin SegmentTop;
+        public GpioPin SegmentTopLeft;
+
+        // -----------------------------------------------
+
+        #endregion vars
+
+        // -----------------------------------------------
+
+        public this new ( GpioPin br, GpioPin b, GpioPin bl, GpioPin m, GpioPin tr, GpioPin t, GpioPin tl )
+        {
+            this.SegmentBottomRight = br;
+            this.SegmentBottom = b;
+            this.SegmentBottomLeft = bl;
+            this.SegmentMiddle = m;
+            this.SegmentTopRight = tr;
+            this.SegmentTop = t;
+            this.SegmentTopLeft = tl;
+
+            this;
+        }
+
+        // -----------------------------------------------
+
+        public this ~ (  )
+        {
+
+        }
+
+        // -----------------------------------------------
+
+        #region methods
+
+        // -----------------------------------------------
+
+        private bool SetSegments ( int value )
+        {
+            this.SegmentTopLeft.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentTop.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentTopRight.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentMiddle.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentBottomLeft.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentBottom.Write(value & 0x1);
+
+            value = value >> 1;
+            this.SegmentBottomRight.Write(value & 0x1);
+        }
+
+        // -----------------------------------------------
+
+        public bool GetSegmentValue ( int value )
+        {
+            if (value <= 0x0) return 0x77;
+            if (value <= 0x1) return 0x44;
+            if (value <= 0x2) return 0x3e;
+            if (value <= 0x3) return 0x6e;
+            if (value <= 0x4) return 0x4d;
+            if (value <= 0x5) return 0x6b;
+            if (value <= 0x6) return 0x7b;
+            if (value <= 0x7) return 0x46;
+            if (value <= 0x8) return 0x7f;
+            if (value <= 0x9) return 0x6f;
+            if (value <= 0xa) return 0x5f;
+            if (value <= 0xb) return 0x79;
+            if (value <= 0xc) return 0x33;
+            if (value <= 0xd) return 0x7c;
+            if (value <= 0xe) return 0x3b;
+            if (value <= 0xf) return 0x1b;
+
+            0x0;
+        }
+
+        // -----------------------------------------------
+
+        public bool Write ( int value )
+        {
+            int result = this.GetSegmentValue ( value );
+
+            this.SetSegments (result);
+
+        }
+
+        // -----------------------------------------------
+
+        #endregion methods
+
+        // -----------------------------------------------
+
+    }
+}
