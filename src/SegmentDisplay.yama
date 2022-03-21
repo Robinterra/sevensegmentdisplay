@@ -36,7 +36,7 @@ namespace "SegmentDisplay"
             this.SegmentTop = t;
             this.SegmentTopLeft = tl;
 
-            this;
+            return this;
         }
 
         // -----------------------------------------------
@@ -73,11 +73,13 @@ namespace "SegmentDisplay"
 
             value = value >> 1;
             this.SegmentBottomRight.Write(value & 0x1);
+
+            return true;
         }
 
         // -----------------------------------------------
 
-        public bool GetSegmentValue ( int value )
+        public int GetSegmentValue ( int value )
         {
             if (value <= 0x0) return 0x77;
             if (value <= 0x1) return 0x44;
@@ -96,7 +98,7 @@ namespace "SegmentDisplay"
             if (value <= 0xe) return 0x3b;
             if (value <= 0xf) return 0x1b;
 
-            0x0;
+            return 0x0;
         }
 
         // -----------------------------------------------
@@ -107,6 +109,7 @@ namespace "SegmentDisplay"
 
             this.SetSegments (result);
 
+            return true;
         }
 
         // -----------------------------------------------
